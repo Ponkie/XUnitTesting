@@ -28,12 +28,16 @@ namespace UnitTesting
         }
 
         [Theory]
-        [InlineData("", "Dino", "Reyes", "HappyHappy", "LastName"]
-        public void AddUser_ShouldFailNoUsername()
+        [InlineData("", "Dino", "Angelo", "yoyoyoyo", "Username")]
+        [InlineData("Ponkie", "", "Angelo", "yoyoyoyo", "FirstName")]
+        [InlineData("Ponkie", "Dino", "", "yoyoyoyo", "LastName")]
+        [InlineData("Ponkie", "Dino", "Angelo", "", "Password")]
+
+        public void AddUser_ShouldFailEmptyFields(string username, string firstName, string lastName, string password, string param)
         {
             UserManagement user = new UserManagement();
-            
-            
+
+            Assert.Throws<ArgumentException>(param, () => user.AddUser(username, firstName, lastName, password));
         }
 
     }

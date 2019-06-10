@@ -25,6 +25,11 @@ namespace Business
                 throw new ArgumentException("Please input a username!");
             }
 
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                throw new ArgumentException("Please input a username!");
+            }
+
             User newUser = new User()
             {
                 EntityID = 1,
