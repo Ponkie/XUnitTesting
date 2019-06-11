@@ -17,12 +17,10 @@ namespace Business
             {
                 throw new ArgumentException("Please input a First Name!", "FirstName");
             }
-
             if (string.IsNullOrWhiteSpace(lastName))
             {
                 throw new ArgumentException("Please input a Last Name!", "LastName");
             }
-
             if (string.IsNullOrWhiteSpace(password))
             {
                 throw new ArgumentException("Please input a Password!", "Password");
@@ -57,8 +55,10 @@ namespace Business
                 {
                     throw new ArgumentException("Invalid Username!", "Username");
                 }
+
             }).ToList();   
         }
+
 
 
     }

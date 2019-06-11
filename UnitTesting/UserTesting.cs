@@ -16,7 +16,6 @@ namespace UnitTesting
 
         public void AddUser_ShouldAddUser(string username, string firstName, string lastName, string password)
         {
-
             userList.Add(userMan.AddUser(username, firstName, lastName, password));
 
             int expected = 1;
@@ -34,9 +33,7 @@ namespace UnitTesting
 
         public void AddUser_ShouldFailEmptyFields(string username, string firstName, string lastName, string password, string param)
         {
-            UserManagement user = new UserManagement();
-
-            Assert.Throws<ArgumentException>(param, () => user.AddUser(username, firstName, lastName, password));
+            Assert.Throws<ArgumentException>(param, () => userMan.AddUser(username, firstName, lastName, password));
         }
 
         [Theory]
@@ -57,6 +54,7 @@ namespace UnitTesting
             Assert.Equal(firstName, actual);
         }
 
+
         [Theory]
         [InlineData("Ponkie", "Yoyo")]
         public void EditUser_ShouldEditLastName(string username, string lastName)
@@ -76,12 +74,12 @@ namespace UnitTesting
 
         [Theory]
         [InlineData("Ponki", "Username")]
+        [InlineData("asdadas", "Username")]
         public void EditUser_ShouldFailInvalidUsername(string username, string param)
         {
             userList.Add(userMan.AddUser("Ponkie", "Dino", "Reyes", "Password"));
 
             Assert.Throws<ArgumentException>(param, () => userMan.EditUser(userList, username, "Dino", "Angelo"));
-
         }
     }
 
