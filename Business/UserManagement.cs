@@ -1,7 +1,6 @@
 ﻿using Entity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Business
 {
@@ -9,6 +8,7 @@ namespace Business
     {
         public User AddUser(string username, string firstName, string lastName, string password)
         {
+
             if (string.IsNullOrWhiteSpace(username))
             {
                 throw new ArgumentException("Please input a username!", "Username");
@@ -35,31 +35,45 @@ namespace Business
                 Password = password
             };
 
+
             return newUser;
         }
 
-        public void EditUser(List<User> User, string username, string newFirstName, string newLastName)
+        public bool checkPassword(string password)
         {
-        
-            User = User.Select(edit =>
+            bool haveUpper = false;
+            foreach (char c in password)
+            {
+                if (char.IsUpper(c)) haveUpper = true;
+            }
+
+            if (!haveUpper) throw new ArgumentException("Invalid Password! Must contain 1 uppercase!", "Password");
+
+            return haveUpper;
+        }
+
+        public void EditUser(List<User> userList, string username, string newFirstName, string newLastName)
+        {
+            int editCtr = 0;
+            userList.ForEach(edit =>
             {
                 if (edit.Username == username)
                 {
-                    Console.WriteLine(edit.Username);
-                    Console.WriteLine(username);
                     edit.FirstName = newFirstName;
                     edit.LastName = newLastName;
-                    return edit;
+                    editCtr++;
                 }
-                else
-                {
-                    throw new ArgumentException("Invalid Username!", "Username");
-                }
+            });
+            if (editCtr == 0) throw new ArgumentException("Invalid Username!", "Username");
 
-            }).ToList();   
         }
 
-
+        public void DeleteUser(List<User> UserList, string username)
+        {
+            int index = UserList.FindIndex(del => del.Username == username);
+            if (index >= 0) UserList.RemoveAll(rem => rem.Username == username);
+            else throw new ArgumentException("Invalid Username!", "Username");
+        }
 
     }
 }

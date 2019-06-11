@@ -12,12 +12,14 @@ namespace XUnitTesting
             List<User> userList = new List<User>();
             UserManagement userMan = new UserManagement();
             userList.Add(userMan.AddUser("Ponkie", "Dino", "Reyes", "Huehuehue"));
+            userList.Add(userMan.AddUser("Ponkiz", "Dinoa", "Reyesa", "Huehueaaahue"));
+            userList.Add(userMan.AddUser("Ponkib", "Dinoa", "Reyesa", "Huehueaaahue"));
             displayList(userList);
 
 
-            userMan.EditUser(userList, "Ponkie", "Hehe", "Hoho");
-
+            userMan.DeleteUser(userList, "Ponkiz");
             displayList(userList);
+
         }
 
         private static void displayList(List<User> userList)

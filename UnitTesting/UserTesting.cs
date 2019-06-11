@@ -16,13 +16,22 @@ namespace UnitTesting
 
         public void AddUser_ShouldAddUser(string username, string firstName, string lastName, string password)
         {
-            userList.Add(userMan.AddUser(username, firstName, lastName, password));
+            //userList.Add(userMan.AddUser(username, firstName, lastName, password));
 
+            //var expected = new User();
+            //expected.EntityID = 1;
+            //expected.Username = username;
+            //expected.FirstName = firstName;
+            //expected.LastName = lastName;
+            //expected.Password = password;
+
+            //Assert.Contains(expected, userList);
+            int actual = 0;
+            userList.Add(userMan.AddUser(username, firstName, lastName, password));
             int expected = 1;
-            int actual = userList.Count;
+            actual = userList.Count;
 
             Assert.Equal(expected, actual);
-
         }
 
         [Theory]
@@ -34,6 +43,21 @@ namespace UnitTesting
         public void AddUser_ShouldFailEmptyFields(string username, string firstName, string lastName, string password, string param)
         {
             Assert.Throws<ArgumentException>(param, () => userMan.AddUser(username, firstName, lastName, password));
+        }
+
+        [Fact]
+        public void AddUser_ShouldAcceptPassword()
+        {
+            bool expected = true;
+            bool actual = userMan.checkPassword("Password");
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("ssword", "Password")]
+        public void AddUser_ShouldNotAcceptPassword(string password, string param)
+        {
+            Assert.Throws<ArgumentException>(param, () => userMan.checkPassword(password));
         }
 
         [Theory]
@@ -81,6 +105,32 @@ namespace UnitTesting
 
             Assert.Throws<ArgumentException>(param, () => userMan.EditUser(userList, username, "Dino", "Angelo"));
         }
+
+        [Theory]
+        [InlineData("Ponkie")]
+        public void DeleteUser_ShouldDeleteUser(string username)
+        {
+            bool actual = true;
+            bool expected = false;
+            userList.Add(userMan.AddUser(username, "Dino", "Reyes", "Password"));
+            userList.Add(userMan.AddUser("Heyhey", "Ellah", "Agni", "Drowssap"));
+            userMan.DeleteUser(userList, username);
+            foreach (var list in userList)
+            {
+                if (list.Username != username) actual = false;              
+            }         
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData("Ponki", "Username")]
+        public void DeleteUser_ShouldFailDeleteUser(string username, string param)
+        {
+            userList.Add(userMan.AddUser("Ponkie", "Dino", "Reyes", "Password"));
+            Assert.Throws<ArgumentException>(param, () => userMan.DeleteUser(userList, username));
+        }
+
+
     }
 
 
